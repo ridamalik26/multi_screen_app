@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:multi_screen_app/screens/registeration_screen.dart';
+import 'package:multi_screen_app/screens/home_screen.dart';
+import 'package:multi_screen_app/screens/login_screen.dart';
+import 'package:multi_screen_app/services/auth_service.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await AuthService.init();
   runApp(const MyApp());
 }
 
@@ -12,11 +16,18 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Registration App',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigo),
-        useMaterial3: true,
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.indigo,
+          brightness: Brightness.light,
+        ),
+        scaffoldBackgroundColor: const Color(0xFFF3F4F8),
+        appBarTheme: const AppBarTheme(centerTitle: true, elevation: 0),
       ),
-      home: const RegisterScreen(),
+      home: AuthService.currentUser != null
+          ? HomeScreen(userName: AuthService.currentUser!.name)
+          : const LoginScreen(),
     );
   }
 }
