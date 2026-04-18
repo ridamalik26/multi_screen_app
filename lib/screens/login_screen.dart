@@ -77,7 +77,7 @@ class _LoginScreenState extends State<LoginScreen> {
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [Color(0xFF4C6FFF), Color(0xFF7C3AED)],
+            colors: [Color(0xFF0B1020), Color(0xFF1A2448), Color(0xFF2A1E50)],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
@@ -120,7 +120,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20),
                   ),
-                  elevation: 10,
+                  color: const Color(0xFF121A36),
+                  elevation: 0,
                   child: Padding(
                     padding: const EdgeInsets.all(20),
                     child: Form(
@@ -163,6 +164,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             children: [
                               Checkbox(
                                 value: _rememberMe,
+                                activeColor: const Color(0xFF8F9BFF),
                                 onChanged: (value) {
                                   setState(() {
                                     _rememberMe = value ?? false;

@@ -25,7 +25,7 @@ class DetailScreen extends StatelessWidget {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(18),
                 gradient: const LinearGradient(
-                  colors: [Color(0xFF4C6FFF), Color(0xFF7C3AED)],
+                  colors: [Color(0xFF17244F), Color(0xFF312269)],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
@@ -69,7 +69,7 @@ class DetailScreen extends StatelessWidget {
                 borderRadius: BorderRadius.circular(14),
               ),
               child: const ListTile(
-                leading: Icon(Icons.schedule, color: Colors.indigo),
+                leading: Icon(Icons.schedule, color: Color(0xFF9EABFF)),
                 title: Text(
                   'Schedule',
                   style: TextStyle(fontWeight: FontWeight.bold),
@@ -105,7 +105,7 @@ class DetailScreen extends StatelessWidget {
                             const Icon(
                               Icons.check_circle_outline,
                               size: 18,
-                              color: Colors.indigo,
+                              color: Color(0xFF9EABFF),
                             ),
                             const SizedBox(width: 8),
                             Expanded(child: Text(topic)),

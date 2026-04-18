@@ -85,12 +85,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
           child: ListView(
             children: [
               Card(
-                color: Colors.indigo.shade50,
+                color: const Color(0xFF172246),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16),
                 ),
                 child: const ListTile(
-                  leading: Icon(Icons.how_to_reg, color: Colors.indigo),
+                  leading: Icon(Icons.how_to_reg, color: Color(0xFF9EABFF)),
                   title: Text(
                     'Register to continue',
                     style: TextStyle(fontWeight: FontWeight.w700),
@@ -109,7 +109,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               const SizedBox(height: 4),
               const Text(
                 'Fill in your details to get started.',
-                style: TextStyle(color: Colors.grey),
+                style: TextStyle(color: Color(0xFF9AA6D1)),
               ),
               const SizedBox(height: 20),
               TextFormField(

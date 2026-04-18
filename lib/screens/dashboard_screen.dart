@@ -29,7 +29,7 @@ class DashboardScreen extends StatelessWidget {
         const SizedBox(height: 4),
         Text(
           'Semester 5 • CS Department',
-          style: TextStyle(fontSize: 12, color: Colors.grey.shade600),
+          style: const TextStyle(fontSize: 12, color: Color(0xFF9AA6D1)),
         ),
         const SizedBox(height: 16),
         Container(
@@ -37,11 +37,11 @@ class DashboardScreen extends StatelessWidget {
           padding: const EdgeInsets.all(14),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(14),
-            color: Colors.indigo.shade50,
+            color: const Color(0xFF172246),
           ),
           child: Row(
             children: const [
-              Icon(Icons.auto_graph, color: Colors.indigo),
+              Icon(Icons.auto_graph, color: Color(0xFF9EABFF)),
               SizedBox(width: 10),
               Expanded(
                 child: Text(
@@ -73,8 +73,8 @@ class DashboardScreen extends StatelessWidget {
                   ),
                   child: ListTile(
                     leading: CircleAvatar(
-                      backgroundColor: Colors.indigo.shade50,
-                      child: Icon(subjectIcons[index], color: Colors.indigo),
+                      backgroundColor: const Color(0xFF1B274E),
+                      child: Icon(subjectIcons[index], color: Color(0xFF9EABFF)),
                     ),
                     title: Text(subjects[index]),
                     subtitle: const Text('View course details'),
