@@ -1,51 +1,43 @@
 # 📱 Multi Screen Flutter App
 
-A frontend-based Flutter application featuring dynamic UI, form validation, and local data persistence using Shared Preferences.
+A frontend-based Flutter application featuring dynamic UI, form validation, and local data persistence.
 
 ---
 
 ## 📸 Application Screenshots
 
 ### 🔐 Authentication Flow
-**Registration Screen**
-![Registration](assests/screenshots/registeration_screen.png)
-
-**Login Screen**
-![Login](assests/screenshots/login.png)
-
-**Form Validation**
-![Validation](assests/screenshots/validation.png)
+<p align="left">
+  <img src="assests/screenshots/registeration_screen.png" width="250" alt="Registration">
+  <img src="assests/screenshots/login.png" width="250" alt="Login">
+  <img src="assests/screenshots/validation.png" width="250" alt="Validation">
+</p>
 
 ---
 
 ### 📊 Dashboard & Features
-**Main Dashboard**
-![Dashboard](assests/screenshots/dashboard.png)
-
-**Home Screen**
-![Home](assests/screenshots/home.png)
-
-**Dropdown Implementation**
-![Dropdown](assests/screenshots/dropdown.png)
+<p align="left">
+  <img src="assests/screenshots/dashboard.png" width="250" alt="Dashboard">
+  <img src="assests/screenshots/home.png" width="250" alt="Home">
+  <img src="assests/screenshots/dropdown.png" width="250" alt="Dropdown">
+</p>
 
 ---
 
 ### 👤 User Profile & Navigation
-**Profile Screen**
-![Profile](assests/screenshots/profilescreen.png)
-
-**Inner Content**
-![Inner Screen](assests/screenshots/innerscreen1.png)
+<p align="left">
+  <img src="assests/screenshots/profilescreen.png" width="250" alt="Profile">
+  <img src="assests/screenshots/innerscreen1.png" width="250" alt="Inner Screen">
+</p>
 
 ---
 
 ## 🛠️ Features Implemented
-* **Shared Preferences:** Registered data (Name/Email) is stored locally and displayed dynamically on the Login and Profile screens.
-* **Smart Validation:** Real-time feedback on registration forms to ensure correct data entry.
-* **Seamless Navigation:** Smooth transition between Authentication, Dashboard, and Inner screens.
-* **Modern UI:** Clean dark-themed design with custom Flutter widgets.
+* **Shared Preferences:** Registered data persists and displays dynamically.
+* **Smart Validation:** Robust logic for email and password fields.
+* **Seamless Navigation:** Smooth flow between all application modules.
 
 ## 🚀 How to Run
-1. Clone this repository:
-   ```bash
-   git clone <your-repo-link>
+1. `git clone <your-repo-link>`
+2. `flutter pub get`
+3. `flutter run`
