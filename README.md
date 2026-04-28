@@ -1,30 +1,22 @@
-# 📱 Multi-Screen Flutter App
+# 📱 Multi Screen Flutter App
 
-A sophisticated frontend-driven Flutter application featuring a seamless navigation flow, dynamic user data handling, and robust form validation. This project demonstrates clean UI architecture and local data persistence.
+This is a frontend-based Flutter application with dynamic UI features and Shared Preferences integration.
 
----
-
-## 🚀 Key Features
-
-* **Dynamic User Flow:** Integration with **Shared Preferences** to persist user data across sessions.
-* **Smart Authentication:** * Complete registration logic with real-time **Form Validation**.
-    * Dynamic Login screen that automatically reflects the registered user's email.
-* **Personalized Experience:** Dashboard and Profile screens dynamically display the user's name and academic details.
-* **Modern UI Components:**
-    * Custom Dropdown selections.
-    * Multi-layered navigation (Dashboard -> Inner Screens).
-    * Clean, dark-themed aesthetic for reduced eye strain.
+## 🚀 Features
+* **Shared Preferences:** Registered data (Name/Email) automatically shows on Login and Profile screens.
+* **Form Validation:** Full validation logic for registration.
+* **Dynamic UI:** Smooth navigation between Dashboard, Profile, and Inner screens.
 
 ---
 
-## 📸 Application Gallery
+## 📸 Application Screenshots
 
 <div align="center">
-  <table style="width: 100%; text-align: center;">
+  <table>
     <tr>
-      <td width="33%"><strong>Registration</strong></td>
-      <td width="33%"><strong>Login Flow</strong></td>
-      <td width="33%"><strong>Validation Logic</strong></td>
+      <td><b>Registration Screen</b></td>
+      <td><b>Login Screen</b></td>
+      <td><b>Validation</b></td>
     </tr>
     <tr>
       <td><img src="screenshots/registration_screen.png" width="250"></td>
@@ -32,18 +24,18 @@ A sophisticated frontend-driven Flutter application featuring a seamless navigat
       <td><img src="screenshots/validation.png" width="250"></td>
     </tr>
     <tr>
-      <td><strong>Home Screen</strong></td>
-      <td><strong>Dashboard</strong></td>
-      <td><strong>User Profile</strong></td>
+      <td><b>Dashboard</b></td>
+      <td><b>Home Screen</b></td>
+      <td><b>Profile Screen</b></td>
     </tr>
     <tr>
-      <td><img src="screenshots/home.png" width="250"></td>
       <td><img src="screenshots/dashboard.png" width="250"></td>
+      <td><img src="screenshots/home.png" width="250"></td>
       <td><img src="screenshots/profilescreen.png" width="250"></td>
     </tr>
     <tr>
-      <td><strong>Dropdown Feature</strong></td>
-      <td><strong>Inner Screen</strong></td>
+      <td><b>Dropdown Feature</b></td>
+      <td><b>Inner Screen</b></td>
       <td></td>
     </tr>
     <tr>
@@ -56,17 +48,7 @@ A sophisticated frontend-driven Flutter application featuring a seamless navigat
 
 ---
 
-## 🛠️ Technical Stack
-
-* **Framework:** Flutter
-* **Language:** Dart
-* **Data Persistence:** `shared_preferences`
-* **State Management:** (Mention yours here, e.g., Provider/GetX/setState)
-
-## 📂 Project Structure
-```text
-lib/
-├── screens/         # All UI Screens (Login, Home, Profile, etc.)
-├── models/          # Data models for User profile
-├── widgets/         # Reusable custom UI components
-└── main.dart        # Entry point and routing logic
+## 🛠️ How to Run
+1. `git clone <your-repo-link>`
+2. `flutter pub get`
+3. `flutter run`
