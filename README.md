@@ -1,140 +1,72 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Multi Screen App - Project Showcase</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: Arial, sans-serif;
-    }
+# 📱 Multi-Screen Flutter App
 
-    body {
-      background: #f5f7fa;
-      color: #222;
-      padding: 30px;
-      line-height: 1.6;
-    }
+A sophisticated frontend-driven Flutter application featuring a seamless navigation flow, dynamic user data handling, and robust form validation. This project demonstrates clean UI architecture and local data persistence.
 
-    .container {
-      max-width: 1100px;
-      margin: auto;
-      background: white;
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-    }
+---
 
-    h1, h2 {
-      margin-bottom: 15px;
-      color: #111;
-    }
+## 🚀 Key Features
 
-    p {
-      margin-bottom: 15px;
-    }
+* **Dynamic User Flow:** Integration with **Shared Preferences** to persist user data across sessions.
+* **Smart Authentication:** * Complete registration logic with real-time **Form Validation**.
+    * Dynamic Login screen that automatically reflects the registered user's email.
+* **Personalized Experience:** Dashboard and Profile screens dynamically display the user's name and academic details.
+* **Modern UI Components:**
+    * Custom Dropdown selections.
+    * Multi-layered navigation (Dashboard -> Inner Screens).
+    * Clean, dark-themed aesthetic for reduced eye strain.
 
-    ul {
-      margin-left: 20px;
-      margin-bottom: 25px;
-    }
+---
 
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 20px;
-      margin-top: 20px;
-    }
+## 📸 Application Gallery
 
-    .card {
-      background: #fff;
-      border: 1px solid #ddd;
-      border-radius: 10px;
-      padding: 12px;
-      text-align: center;
-    }
+<div align="center">
+  <table style="width: 100%; text-align: center;">
+    <tr>
+      <td width="33%"><strong>Registration</strong></td>
+      <td width="33%"><strong>Login Flow</strong></td>
+      <td width="33%"><strong>Validation Logic</strong></td>
+    </tr>
+    <tr>
+      <td><img src="screenshots/registration_screen.png" width="250"></td>
+      <td><img src="screenshots/login.png" width="250"></td>
+      <td><img src="screenshots/validation.png" width="250"></td>
+    </tr>
+    <tr>
+      <td><strong>Home Screen</strong></td>
+      <td><strong>Dashboard</strong></td>
+      <td><strong>User Profile</strong></td>
+    </tr>
+    <tr>
+      <td><img src="screenshots/home.png" width="250"></td>
+      <td><img src="screenshots/dashboard.png" width="250"></td>
+      <td><img src="screenshots/profilescreen.png" width="250"></td>
+    </tr>
+    <tr>
+      <td><strong>Dropdown Feature</strong></td>
+      <td><strong>Inner Screen</strong></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><img src="screenshots/dropdown.png" width="250"></td>
+      <td><img src="screenshots/innerscreen1.png" width="250"></td>
+      <td></td>
+    </tr>
+  </table>
+</div>
 
-    .card img {
-      width: 100%;
-      border-radius: 8px;
-      margin-bottom: 10px;
-    }
+---
 
-    .card h3 {
-      font-size: 16px;
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <h1>Multi Screen Flutter App</h1>
+## 🛠️ Technical Stack
 
-    <p>
-      This is a frontend-based Flutter application with multiple screens and dynamic UI features.
-      The project demonstrates user registration, login flow, profile handling, dashboard navigation,
-      dropdown selection, validation, and Shared Preferences integration.
-    </p>
+* **Framework:** Flutter
+* **Language:** Dart
+* **Data Persistence:** `shared_preferences`
+* **State Management:** (Mention yours here, e.g., Provider/GetX/setState)
 
-    <h2>Features Implemented</h2>
-    <ul>
-      <li>User Registration Screen with complete form validation</li>
-      <li>Login Screen with dynamic email display</li>
-      <li>Shared Preferences integration for storing registered user data</li>
-      <li>After login, the same registered user name is displayed dynamically</li>
-      <li>The same registered email is shown on the login screen</li>
-      <li>Dropdown functionality implemented</li>
-      <li>Dashboard screen navigation</li>
-      <li>Profile screen with dynamic user details</li>
-      <li>Inner screens navigation</li>
-      <li>All UI is frontend-based and dynamically connected</li>
-    </ul>
-
-    <h2>Application Screenshots</h2>
-
-    <div class="grid">
-      <div class="card">
-        <img src="./screenshots/registeration_screen.png" alt="Registration Screen">
-        <h3>Registration Screen</h3>
-      </div>
-
-      <div class="card">
-        <img src="./screenshots/login.png" alt="Login Screen">
-        <h3>Login Screen</h3>
-      </div>
-
-      <div class="card">
-        <img src="./screenshots/dashboard.png" alt="Dashboard">
-        <h3>Dashboard</h3>
-      </div>
-
-      <div class="card">
-        <img src="./screenshots/home.png" alt="Home Screen">
-        <h3>Home Screen</h3>
-      </div>
-
-      <div class="card">
-        <img src="./screenshots/dropdown.png" alt="Dropdown">
-        <h3>Dropdown Feature</h3>
-      </div>
-
-      <div class="card">
-        <img src="./screenshots/profilescreen.png" alt="Profile Screen">
-        <h3>Profile Screen</h3>
-      </div>
-
-      <div class="card">
-        <img src="./screenshots/innerscreen1.png" alt="Inner Screen">
-        <h3>Inner Screen</h3>
-      </div>
-
-      <div class="card">
-        <img src="./screenshots/validation.png" alt="Validation Screen">
-        <h3>Validation</h3>
-      </div>
-    </div>
-  </div>
-</body>
-</html>
+## 📂 Project Structure
+```text
+lib/
+├── screens/         # All UI Screens (Login, Home, Profile, etc.)
+├── models/          # Data models for User profile
+├── widgets/         # Reusable custom UI components
+└── main.dart        # Entry point and routing logic
