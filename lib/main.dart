@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:multi_screen_app/screens/home_screen.dart';
 import 'package:multi_screen_app/screens/login_screen.dart';
 import 'package:multi_screen_app/services/auth_service.dart';
+import 'package:multi_screen_app/screens/add_edit_course_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,6 +19,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Registration App',
       debugShowCheckedModeBanner: false,
+      routes: {
+        '/add-edit-course': (context) => const AddEditCourseScreen(),
+      },
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
           seedColor: baseSeed,
