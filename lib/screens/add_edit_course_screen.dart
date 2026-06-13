@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/course_model.dart';
-import '../services/api_service.dart';
+import '../providers/course_provider.dart';
 
-
-class AddEditCourseScreen extends StatefulWidget {
+class AddEditCourseScreen extends ConsumerStatefulWidget {
   const AddEditCourseScreen({super.key});
 
   @override
-  State<AddEditCourseScreen> createState() => _AddEditCourseScreenState();
+  ConsumerState<AddEditCourseScreen> createState() =>
+      _AddEditCourseScreenState();
 }
 
-class _AddEditCourseScreenState extends State<AddEditCourseScreen> {
+class _AddEditCourseScreenState extends ConsumerState<AddEditCourseScreen> {
   final _formKey = GlobalKey<FormState>();
   final _titleController = TextEditingController();
   final _bodyController = TextEditingController();
-  final ApiService _apiService = ApiService();
-  bool _isLoading = false;
+  bool _isSubmitting = false;
   Course? _existingCourse;
 
   @override
@@ -28,32 +28,39 @@ class _AddEditCourseScreenState extends State<AddEditCourseScreen> {
     }
   }
 
+  @override
+  void dispose() {
+    _titleController.dispose();
+    _bodyController.dispose();
+    super.dispose();
+  }
+
   Future<void> _submit() async {
     if (!_formKey.currentState!.validate()) return;
-    setState(() { _isLoading = true; });
+    setState(() => _isSubmitting = true);
+
+    final notifier = ref.read(courseListProvider.notifier);
+    final title = _titleController.text;
+    final body = _bodyController.text;
+
     try {
-      Course result;
       if (_existingCourse != null) {
-        result = await _apiService.updateCourse(
-          _existingCourse!.id,
-          _titleController.text,
-          _bodyController.text,
+        await notifier.updateCourse(
+          _existingCourse!.copyWith(title: title, body: body),
         );
       } else {
-        result = await _apiService.addCourse(
-          _titleController.text,
-          _bodyController.text,
-        );
+        await notifier.addCourse(title, body);
       }
       if (!mounted) return;
-      Navigator.pop(context, result);
+      Navigator.pop(context);
     } catch (e) {
+      // Notifier already rolled back the optimistic change.
       if (!mounted) return;
+      setState(() => _isSubmitting = false);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Error: $e'), backgroundColor: Colors.red),
       );
     }
-    if (mounted) setState(() => _isLoading = false);
   }
 
   @override
@@ -93,13 +100,13 @@ class _AddEditCourseScreenState extends State<AddEditCourseScreen> {
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: _isLoading ? null : _submit,
+                  onPressed: _isSubmitting ? null : _submit,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.blue,
                     foregroundColor: Colors.white,
                     padding: const EdgeInsets.symmetric(vertical: 14),
                   ),
-                  child: _isLoading
+                  child: _isSubmitting
                       ? const CircularProgressIndicator(color: Colors.white)
                       : Text(isEditing ? 'Update Karo' : 'Add Karo'),
                 ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:multi_screen_app/screens/home_screen.dart';
 import 'package:multi_screen_app/screens/login_screen.dart';
 import 'package:multi_screen_app/services/auth_service.dart';
@@ -7,7 +8,7 @@ import 'package:multi_screen_app/screens/add_edit_course_screen.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await AuthService.init();
-  runApp(const MyApp());
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -19,9 +20,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Registration App',
       debugShowCheckedModeBanner: false,
-      routes: {
-        '/add-edit-course': (context) => const AddEditCourseScreen(),
-      },
+      routes: {'/add-edit-course': (context) => const AddEditCourseScreen()},
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
           seedColor: baseSeed,
@@ -38,7 +37,9 @@ class MyApp extends StatelessWidget {
         cardTheme: CardThemeData(
           color: const Color(0xFF141D3A),
           elevation: 0,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
         ),
         inputDecorationTheme: InputDecorationTheme(
           filled: true,

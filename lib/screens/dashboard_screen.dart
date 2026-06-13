@@ -1,45 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:multi_screen_app/models/course_model.dart';
+import 'package:multi_screen_app/providers/course_provider.dart';
 import 'package:multi_screen_app/screens/detail_screen.dart';
-import 'package:multi_screen_app/services/api_service.dart';
 
-class DashboardScreen extends StatefulWidget {
+class DashboardScreen extends ConsumerStatefulWidget {
   const DashboardScreen({super.key, required this.userName});
 
   final String userName;
 
   @override
-  State<DashboardScreen> createState() => _DashboardScreenState();
+  ConsumerState<DashboardScreen> createState() => _DashboardScreenState();
 }
 
-class _DashboardScreenState extends State<DashboardScreen> {
-  final ApiService _apiService = ApiService();
-  List<Course> _courses = [];
-  bool _isLoading = false;
-  String? _error;
+class _DashboardScreenState extends ConsumerState<DashboardScreen> {
+  final _searchController = TextEditingController();
 
   @override
-  void initState() {
-    super.initState();
-    _loadCourses();
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
   }
 
-  Future<void> _loadCourses() async {
-    setState(() {
-      _isLoading = true;
-      _error = null;
-    });
-    try {
-      final courses = await _apiService.fetchCourses();
-      if (!mounted) return;
-      setState(() => _courses = courses);
-    } catch (e) {
-      if (mounted) setState(() => _error = e.toString());
-    }
-    if (mounted) setState(() => _isLoading = false);
-  }
+  Future<void> _refresh() => ref.read(courseListProvider.notifier).refresh();
 
-  Future<void> _deleteCourse(int index) async {
+  Future<void> _deleteCourse(Course course) async {
     final confirm = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
@@ -58,12 +43,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
       ),
     );
 
-    if (confirm != true || !mounted) return;
+    if (confirm != true) return;
 
     try {
-      await _apiService.deleteCourse(_courses[index].id);
+      // Optimistic: the list updates immediately inside the notifier.
+      await ref.read(courseListProvider.notifier).deleteCourse(course.id);
       if (!mounted) return;
-      setState(() => _courses.removeAt(index));
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Course delete ho gaya!'),
@@ -71,6 +56,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         ),
       );
     } catch (e) {
+      // Notifier already rolled the list back; just report it.
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Error: $e'), backgroundColor: Colors.red),
@@ -78,26 +64,16 @@ class _DashboardScreenState extends State<DashboardScreen> {
     }
   }
 
-  Future<void> _goToAddEdit({Course? course, int? index}) async {
-    final result = await Navigator.pushNamed(
-      context,
-      '/add-edit-course',
-      arguments: course,
-    );
-
-    if (!mounted || result == null || result is! Course) return;
-
-    setState(() {
-      if (index != null) {
-        _courses[index] = result;
-      } else {
-        _courses.insert(0, result);
-      }
-    });
+  void _goToAddEdit({Course? course}) {
+    // The provider is the source of truth now; no return value handling needed.
+    Navigator.pushNamed(context, '/add-edit-course', arguments: course);
   }
 
   @override
   Widget build(BuildContext context) {
+    final coursesAsync = ref.watch(filteredCoursesProvider);
+    final isLoading = coursesAsync.isLoading;
+
     return Column(
       children: [
         const SizedBox(height: 10),
@@ -122,97 +98,161 @@ class _DashboardScreenState extends State<DashboardScreen> {
               const Spacer(),
               IconButton(
                 tooltip: 'Refresh',
-                onPressed: _isLoading ? null : _loadCourses,
+                onPressed: isLoading ? null : _refresh,
                 icon: const Icon(Icons.refresh),
               ),
               IconButton(
                 tooltip: 'Add course',
-                onPressed: _isLoading ? null : () => _goToAddEdit(),
+                onPressed: () => _goToAddEdit(),
                 icon: const Icon(Icons.add_circle_outline),
               ),
             ],
           ),
         ),
         const SizedBox(height: 8),
-        Expanded(child: _buildCourseList()),
+        TextField(
+          controller: _searchController,
+          onChanged: (value) =>
+              ref.read(searchQueryProvider.notifier).state = value,
+          decoration: InputDecoration(
+            hintText: 'Search courses by title...',
+            prefixIcon: const Icon(Icons.search),
+            isDense: true,
+            suffixIcon: _searchController.text.isEmpty
+                ? null
+                : IconButton(
+                    icon: const Icon(Icons.clear),
+                    onPressed: () {
+                      _searchController.clear();
+                      ref.read(searchQueryProvider.notifier).state = '';
+                    },
+                  ),
+          ),
+        ),
+        const SizedBox(height: 8),
+        Expanded(child: _buildCourseList(coursesAsync)),
       ],
     );
   }
 
-  Widget _buildCourseList() {
-    if (_isLoading) {
-      return const Center(child: CircularProgressIndicator());
-    }
-
-    if (_error != null) {
-      return Center(
+  Widget _buildCourseList(AsyncValue<List<Course>> coursesAsync) {
+    return coursesAsync.when(
+      loading: () => const Center(child: CircularProgressIndicator()),
+      error: (err, _) => Center(
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(_error!, style: const TextStyle(color: Colors.red)),
-              const SizedBox(height: 12),
-              ElevatedButton(
-                onPressed: _loadCourses,
-                child: const Text('Retry'),
+              Text(
+                '$err',
+                textAlign: TextAlign.center,
+                style: const TextStyle(color: Colors.red),
               ),
+              const SizedBox(height: 12),
+              ElevatedButton(onPressed: _refresh, child: const Text('Retry')),
             ],
           ),
         ),
-      );
-    }
+      ),
+      data: (courses) {
+        if (courses.isEmpty) {
+          return _buildEmptyState();
+        }
+        return RefreshIndicator(
+          onRefresh: _refresh,
+          child: ListView.builder(
+            padding: const EdgeInsets.only(bottom: 8),
+            itemCount: courses.length,
+            itemBuilder: (context, index) {
+              final course = courses[index];
+              return Card(
+                margin: const EdgeInsets.only(bottom: 8),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: ListTile(
+                  leading: CircleAvatar(child: Text('${course.id}')),
+                  title: Text(
+                    course.title,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  subtitle: Text(
+                    course.body,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      IconButton(
+                        icon: const Icon(Icons.edit, color: Color(0xFF9EABFF)),
+                        onPressed: () => _goToAddEdit(course: course),
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.delete, color: Colors.red),
+                        onPressed: () => _deleteCourse(course),
+                      ),
+                    ],
+                  ),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => DetailScreen(course: course),
+                      ),
+                    );
+                  },
+                ),
+              );
+            },
+          ),
+        );
+      },
+    );
+  }
 
-    if (_courses.isEmpty) {
-      return const Center(child: Text('Koi course nahi mila'));
-    }
-
+  Widget _buildEmptyState() {
+    final hasQuery = ref.watch(searchQueryProvider).trim().isNotEmpty;
+    // Wrap in a scrollable so pull-to-refresh still works on the empty state.
     return RefreshIndicator(
-      onRefresh: _loadCourses,
-      child: ListView.builder(
-        padding: const EdgeInsets.only(bottom: 8),
-        itemCount: _courses.length,
-        itemBuilder: (context, index) {
-          final course = _courses[index];
-          return Card(
-            margin: const EdgeInsets.only(bottom: 8),
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-            child: ListTile(
-              leading: CircleAvatar(child: Text('${course.id}')),
-              title: Text(
-                course.title,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-              subtitle: Text(
-                course.body,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-              ),
-              trailing: Row(
-                mainAxisSize: MainAxisSize.min,
+      onRefresh: _refresh,
+      child: ListView(
+        children: [
+          SizedBox(
+            height: 320,
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  IconButton(
-                    icon: const Icon(Icons.edit, color: Color(0xFF9EABFF)),
-                    onPressed: () => _goToAddEdit(course: course, index: index),
+                  Icon(
+                    hasQuery ? Icons.search_off : Icons.menu_book_outlined,
+                    size: 64,
+                    color: const Color(0xFF7E89B4),
                   ),
-                  IconButton(
-                    icon: const Icon(Icons.delete, color: Colors.red),
-                    onPressed: () => _deleteCourse(index),
+                  const SizedBox(height: 12),
+                  Text(
+                    hasQuery
+                        ? 'No courses match your search'
+                        : 'No courses found',
+                    style: const TextStyle(
+                      fontSize: 16,
+                      color: Color(0xFFC8D2FF),
+                    ),
                   ),
+                  if (!hasQuery) ...[
+                    const SizedBox(height: 6),
+                    const Text(
+                      'Pull down to refresh or add a new course.',
+                      style: TextStyle(color: Color(0xFF7E89B4)),
+                    ),
+                  ],
                 ],
               ),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => DetailScreen(course: course),
-                  ),
-                );
-              },
             ),
-          );
-        },
+          ),
+        ],
       ),
     );
   }
