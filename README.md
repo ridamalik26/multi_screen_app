@@ -22,14 +22,14 @@ A Learning Management System (LMS) mobile app built with **Flutter & Dart**, fea
 
 <table>
   <tr>
-    <td align="center"><b>Home</b><br><img src="assests/ss/home.png" width="200"/></td>
-    <td align="center"><b>CRUD + API</b><br><img src="assests/ss/curd+api.png" width="200"/></td>
-    <td align="center"><b>Profile</b><br><img src="assests/ss/profile.png" width="200"/></td>
+    <td align="center"><b>Home</b><br><img src="assests/screenshots/home.png" width="200"/></td>
+    <td align="center"><b>CRUD + API</b><br><img src="assests/screenshots/curd+api.png" width="200"/></td>
+    <td align="center"><b>Profile</b><br><img src="assests/screenshots/profile.png" width="200"/></td>
   </tr>
   <tr>
-    <td align="center"><b>Dropdown</b><br><img src="assests/ss/dropdown.png" width="200"/></td>
-    <td align="center"><b>Registration</b><br><img src="assests/ss/registration.png" width="200"/></td>
-    <td align="center"><b>Login</b><br><img src="assests/ss/login.png" width="200"/></td>
+    <td align="center"><b>Dropdown</b><br><img src="assests/screenshots/dropdown.png" width="200"/></td>
+    <td align="center"><b>Registration</b><br><img src="assests/screenshots/registration.png" width="200"/></td>
+    <td align="center"><b>Login</b><br><img src="assests/screenshots/login.png" width="200"/></td>
   </tr>
 </table>
 
@@ -41,7 +41,7 @@ The app uses the `shared_preferences` package to persist data locally on the dev
 
 ## CRUD & API Integration
 
-CRUD operations (Create, Read, Update, Delete) are implemented by calling REST API endpoints from within the app. This covers actions like adding, viewing, updating, and removing records relevant to the LMS (e.g., courses, tasks, or user records depending on your backend).
+CRUD operations (Create, Read, Update, Delete) are implemented by calling REST API endpoints from within the app. This covers actions like adding, viewing, updating, and removing records relevant to the LMS.
 
 ## Getting Started
 
@@ -51,37 +51,3 @@ CRUD operations (Create, Read, Update, Delete) are implemented by calling REST A
 - A configured backend API (update the base URL in the API service file)
 
 ### Installation
-
-```
-git clone https://github.com/ridamalik26/lms-app.git
-cd lms-app
-flutter pub get
-flutter run
-```
-
-## Folder Structure (high-level)
-
-```
-lib/
-  screens/
-    home_screen.dart
-    login_screen.dart
-    registration_screen.dart
-    profile_screen.dart
-  services/
-    api_service.dart
-    shared_prefs_service.dart
-  models/
-  widgets/
-```
-
-## Future Improvements
-
-- Add token-based authentication (JWT) for secure API calls
-- Add course/content modules specific to LMS functionality
-- Add search and filtering on listing screens
-- Add offline caching alongside API data
-
----
-
-Built with Flutter & Dart.
