@@ -1,16 +1,87 @@
-# multi_screen_app
+# LMS App (Flutter)
 
-A new Flutter project.
+A Learning Management System (LMS) mobile app built with **Flutter & Dart**, featuring user authentication, profile management, and CRUD operations powered by a REST API, with local session persistence via Shared Preferences.
+
+## Features
+
+- **User Authentication** — Login and Registration screens with form validation
+- **Home Dashboard** — Landing screen showing welcome message and quick access to app sections
+- **Profile Management** — View and manage user profile details
+- **Dropdown / Selection UI** — Dynamic dropdown component for selecting options within the app
+- **CRUD Operations via API** — Create, Read, Update, and Delete operations integrated with a backend REST API
+- **Local Storage (Shared Preferences)** — Session/login state and user data persisted locally on the device
+
+## Tech Stack
+
+- **Framework:** Flutter (Dart)
+- **Local Storage:** `shared_preferences`
+- **Networking:** REST API (`http` package)
+- **State Management:** Stateful widgets / setState
+
+## Screens
+
+<table>
+  <tr>
+    <td align="center"><b>Home</b><br><img src="assests/ss/home.png" width="200"/></td>
+    <td align="center"><b>CRUD + API</b><br><img src="assests/ss/curd+api.png" width="200"/></td>
+    <td align="center"><b>Profile</b><br><img src="assests/ss/profile.png" width="200"/></td>
+  </tr>
+  <tr>
+    <td align="center"><b>Dropdown</b><br><img src="assests/ss/dropdown.png" width="200"/></td>
+    <td align="center"><b>Registration</b><br><img src="assests/ss/registration.png" width="200"/></td>
+    <td align="center"><b>Login</b><br><img src="assests/ss/login.png" width="200"/></td>
+  </tr>
+</table>
+
+## Local Storage — Shared Preferences
+
+The app uses the `shared_preferences` package to persist data locally on the device, such as:
+- Login/session state (so the user stays logged in across app restarts)
+- Basic user info for quick access without repeated API calls
+
+## CRUD & API Integration
+
+CRUD operations (Create, Read, Update, Delete) are implemented by calling REST API endpoints from within the app. This covers actions like adding, viewing, updating, and removing records relevant to the LMS (e.g., courses, tasks, or user records depending on your backend).
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+### Prerequisites
+- Flutter SDK installed
+- Android Studio / VS Code with Flutter & Dart plugins
+- A configured backend API (update the base URL in the API service file)
 
-A few resources to get you started if this is your first Flutter project:
+### Installation
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+```
+git clone https://github.com/ridamalik26/lms-app.git
+cd lms-app
+flutter pub get
+flutter run
+```
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Folder Structure (high-level)
+
+```
+lib/
+  screens/
+    home_screen.dart
+    login_screen.dart
+    registration_screen.dart
+    profile_screen.dart
+  services/
+    api_service.dart
+    shared_prefs_service.dart
+  models/
+  widgets/
+```
+
+## Future Improvements
+
+- Add token-based authentication (JWT) for secure API calls
+- Add course/content modules specific to LMS functionality
+- Add search and filtering on listing screens
+- Add offline caching alongside API data
+
+---
+
+Built with Flutter & Dart.
